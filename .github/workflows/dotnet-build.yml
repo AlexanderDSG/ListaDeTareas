@@ -1,0 +1,31 @@
+name: Build ASP.NET Core MVC App
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout código
+      uses: actions/checkout@v3
+
+    - name: Instalar .NET SDK
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 8.0.x # o 7.0.x si usas .NET 7
+
+    - name: Restaurar dependencias
+      run: dotnet restore
+
+    - name: Compilar la solución
+      run: dotnet build --no-restore --configuration Release
+
+    # Descomenta esta parte si tienes tests
+    # - name: Ejecutar pruebas
+    #   run: dotnet test --no-build --verbosity normal
